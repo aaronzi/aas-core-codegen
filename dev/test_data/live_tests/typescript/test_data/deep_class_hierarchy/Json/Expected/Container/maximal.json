@@ -1,0 +1,9 @@
+{
+  "node": {
+    "modelType": "Blossom",
+    "identifier": "nested-blossom-max",
+    "description": "nested blossom",
+    "value": 77,
+    "details": "nested details"
+  }
+}

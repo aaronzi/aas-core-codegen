@@ -1,0 +1,8 @@
+<container xmlns="https://dummy.com">
+  <node>
+    <branch>
+      <identifier>nested-branch-min</identifier>
+      <description>nested branch</description>
+    </branch>
+  </node>
+</container>

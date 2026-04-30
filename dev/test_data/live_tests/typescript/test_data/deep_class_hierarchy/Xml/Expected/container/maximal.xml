@@ -1,0 +1,10 @@
+<container xmlns="https://dummy.com">
+  <node>
+    <blossom>
+      <identifier>nested-blossom-max</identifier>
+      <description>nested blossom</description>
+      <value>77</value>
+      <details>nested details</details>
+    </blossom>
+  </node>
+</container>
