@@ -314,7 +314,9 @@ if (propertyError === null) {{
             as_function_name = typescript_naming.function_name(
                 Identifier(f"as_{type_anno.items.our_type.name}")
             )
-            expected_name = typescript_naming.interface_name(type_anno.items.our_type.name)
+            expected_name = typescript_naming.interface_name(
+                type_anno.items.our_type.name
+            )
 
             parse_body = Stripped(
                 f"""\
@@ -424,7 +426,9 @@ def _generate_parse_concrete_class(cls: intermediate.ConcreteClass) -> Stripped:
     """Generate parser for a concrete class from a start XML tag."""
     function_name = _parse_function_name_for_concrete_class(cls=cls)
     cls_name = typescript_naming.class_name(cls.name)
-    local_name_literal = typescript_common.string_literal(naming.xml_class_name(cls.name))
+    local_name_literal = typescript_common.string_literal(
+        naming.xml_class_name(cls.name)
+    )
 
     var_declarations = []  # type: List[Stripped]
     required_checks = []  # type: List[Stripped]
@@ -460,7 +464,9 @@ if ({var_name} === null) {{
                 )
             )
 
-        parse_cases.append(_generate_parse_case_for_property(cls=cls, prop=prop, var_name=var_name))
+        parse_cases.append(
+            _generate_parse_case_for_property(cls=cls, prop=prop, var_name=var_name)
+        )
 
     parse_cases.append(
         Stripped(
@@ -505,8 +511,16 @@ return new AasCommon.Either<AasTypes.Class, DeserializationError>(
         )
         construct = Stripped(writer.getvalue())
 
-    declarations = Stripped("\n".join(var_declarations)) if len(var_declarations) > 0 else Stripped("// No properties")
-    required_checks_block = Stripped("\n\n".join(required_checks)) if len(required_checks) > 0 else Stripped("// No required properties")
+    declarations = (
+        Stripped("\n".join(var_declarations))
+        if len(var_declarations) > 0
+        else Stripped("// No properties")
+    )
+    required_checks_block = (
+        Stripped("\n\n".join(required_checks))
+        if len(required_checks) > 0
+        else Stripped("// No required properties")
+    )
 
     return Stripped(
         f"""\
@@ -670,7 +684,9 @@ parts.push(closeTag({xml_name_literal}));"""
                 (intermediate.AbstractClass, intermediate.ConcreteClass),
             )
         ):
-            serialize_item_function = _serialize_function_for_atomic_type(type_anno.items)
+            serialize_item_function = _serialize_function_for_atomic_type(
+                type_anno.items
+            )
             item_var = typescript_naming.variable_name(Identifier(f"item_{prop.name}"))
 
             body = Stripped(
@@ -733,7 +749,9 @@ def _generate_transform_of_concrete_class(cls: intermediate.ConcreteClass) -> St
     """Generate ``transformX`` to serialize a concrete class to XML parts."""
     method_name = typescript_naming.method_name(Identifier(f"transform_{cls.name}"))
     cls_name = typescript_naming.class_name(cls.name)
-    local_name_literal = typescript_common.string_literal(naming.xml_class_name(cls.name))
+    local_name_literal = typescript_common.string_literal(
+        naming.xml_class_name(cls.name)
+    )
 
     blocks = [Stripped("const parts = new Array<string>();")]  # type: List[Stripped]
 
@@ -1386,8 +1404,8 @@ function parseClassValueInProperty(
     blocks.extend(
         [
             _generate_root_dispatch_map(symbol_table=symbol_table),
-        Stripped(
-            f"""\
+            Stripped(
+                f"""\
 /**
  * Parse an XML string as an AAS instance.
  *
@@ -1470,9 +1488,9 @@ export function fromXmlString(
 
 {I}return instanceOrError;
 }}"""
-        ),
-    Stripped(
-        f"""\
+            ),
+            Stripped(
+                f"""\
 type SerializedElement = {{
 {I}localName: string;
 {I}innerXml: string;
@@ -1532,11 +1550,11 @@ function serializeStringText(value: string): string {{
 function serializeBase64EncodedBytesText(value: Uint8Array): string {{
 {I}return escapeXmlText(AasCommon.base64Encode(value));
 }}"""
-    ),
-    _generate_serializer(symbol_table=symbol_table),
-    Stripped("const SERIALIZER = new Serializer();"),
-        Stripped(
-            f"""\
+            ),
+            _generate_serializer(symbol_table=symbol_table),
+            Stripped("const SERIALIZER = new Serializer();"),
+            Stripped(
+                f"""\
 /**
  * Serialize an AAS instance as an XML string.
  *
@@ -1551,8 +1569,8 @@ export function toXmlString(that: AasTypes.Class): string {{
 {I}parts.push(closeTag(serialized.localName));
 {I}return parts.join("");
 }}"""
-        ),
-        typescript_common.WARNING,
+            ),
+            typescript_common.WARNING,
         ]
     )
 

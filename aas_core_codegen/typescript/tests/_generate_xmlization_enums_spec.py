@@ -67,7 +67,6 @@ import * as TestCommonXmlization from "./commonXmlization";"""
                 f"but found none for: {enumeration.name}"
             )
 
-        cls_name_typescript = typescript_naming.class_name(carrier_cls.name)
         prop_name_typescript = typescript_naming.property_name(carrier_prop.name)
         load_maximal_name = typescript_naming.function_name(
             Identifier(f"load_maximal_{carrier_cls.name}")
@@ -103,7 +102,9 @@ test("{enum_name_typescript} XML round-trip OK", () => {{
         prop_xml_name_literal = typescript_common.string_literal(
             naming.xml_property(carrier_prop.name)
         )
-        invalid_literal_literal = typescript_common.string_literal(invalid_literal_value)
+        invalid_literal_literal = typescript_common.string_literal(
+            invalid_literal_value
+        )
 
         blocks.append(
             Stripped(
